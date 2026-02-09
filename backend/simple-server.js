@@ -12,10 +12,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve static files from Next.js build
-app.use(express.static(path.join(__dirname, '../frontend/.next/static')));
-app.use(express.static(path.join(__dirname, '../frontend/public')));
-
 // Simple routes
 app.get('/health', (req, res) => {
   res.json({
@@ -612,17 +608,11 @@ app.listen(PORT, () => {
 });
 
 
-// Serve Next.js frontend for all other routes
-app.get('*', (req, res) => {
-  // Skip API routes
-  if (req.path.startsWith('/api') || req.path.startsWith('/health')) {
-    return res.status(404).json({ success: false, message: 'Not found' });
-  }
-  
-  // Serve Next.js index.html
-  res.sendFile(path.join(__dirname, '../frontend/.next/server/pages/index.html'), (err) => {
-    if (err) {
-      res.status(404).send('Frontend not built. Run: cd frontend && npm run build');
-    }
+// 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).json({ 
+    success: false, 
+    message: 'Route not found',
+    path: req.path
   });
 });

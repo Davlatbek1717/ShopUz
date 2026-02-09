@@ -4,7 +4,7 @@
   "description": "ShopUz E-Commerce Platform - Monorepo",
   "scripts": {
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ..",
-    "build": "cd frontend && npm install && NEXT_PUBLIC_API_URL=/ npm run build && cd ../backend && npm install",
+    "build": "echo 'Backend only - no build needed'",
     "start": "cd backend && node simple-server.js",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
