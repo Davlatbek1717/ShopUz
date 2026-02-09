@@ -7,10 +7,14 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
   credentials: true
 }));
 app.use(express.json());
+
+// Serve static files from Next.js build
+app.use(express.static(path.join(__dirname, '../frontend/.next/static')));
+app.use(express.static(path.join(__dirname, '../frontend/public')));
 
 // Simple routes
 app.get('/health', (req, res) => {
@@ -605,4 +609,20 @@ app.listen(PORT, () => {
   console.log(`📱 Environment: development`);
   console.log(`🌐 Frontend URL: http://localhost:3000`);
   console.log(`💾 Database: SQLite (will connect later)`);
+});
+
+
+// Serve Next.js frontend for all other routes
+app.get('*', (req, res) => {
+  // Skip API routes
+  if (req.path.startsWith('/api') || req.path.startsWith('/health')) {
+    return res.status(404).json({ success: false, message: 'Not found' });
+  }
+  
+  // Serve Next.js index.html
+  res.sendFile(path.join(__dirname, '../frontend/.next/server/pages/index.html'), (err) => {
+    if (err) {
+      res.status(404).send('Frontend not built. Run: cd frontend && npm run build');
+    }
+  });
 });

@@ -1,34 +1,19 @@
 {
-  "name": "ecommerce-platform",
+  "name": "shopuz-monorepo",
   "version": "1.0.0",
-  "description": "Production-ready e-commerce platform with Next.js frontend and Express.js backend",
-  "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
+  "description": "ShopUz E-Commerce Platform - Monorepo",
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ..",
+    "build": "cd frontend && npm install && NEXT_PUBLIC_API_URL=/ npm run build && cd ../backend && npm install",
+    "start": "cd backend && node simple-server.js",
     "dev:backend": "cd backend && npm run dev",
-    "build": "npm run build:backend && npm run build:frontend",
-    "build:frontend": "cd frontend && npm run build",
-    "build:backend": "cd backend && npm run build",
-    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "start:frontend": "cd frontend && npm start",
-    "start:backend": "cd backend && npm start",
-    "docker:dev": "docker-compose -f docker-compose.dev.yml up",
-    "docker:prod": "docker-compose -f docker-compose.prod.yml up",
-    "db:migrate": "cd backend && npx prisma migrate dev",
-    "db:generate": "cd backend && npx prisma generate",
-    "db:seed": "cd backend && npx prisma db seed",
-    "db:studio": "cd backend && npx prisma studio"
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
+  "keywords": ["ecommerce", "nextjs", "express", "prisma"],
+  "author": "Davlatbek",
+  "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
   }
 }
