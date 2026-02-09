@@ -48,6 +48,7 @@ Modern va professional e-commerce platformasi Next.js, Express.js va Prisma bila
 ### Talablar
 - Node.js 18+
 - npm yoki yarn
+- PostgreSQL (production uchun)
 
 ### 1. Repositoriyani klonlash
 ```bash
@@ -77,10 +78,12 @@ cp .env.example .env
 # Frontend .env.local
 cp frontend/.env.local.example frontend/.env.local
 
-# Backend .env (agar kerak bo'lsa)
+# Backend .env
+cp backend/.env.example backend/.env
+# DATABASE_URL ni PostgreSQL connection string bilan almashtiring
 ```
 
-### 4. Database sozlash
+### 4. Database sozlash (Development - SQLite)
 ```bash
 cd backend
 
@@ -90,6 +93,10 @@ npx prisma migrate dev
 # Seed data qo'shish
 npx prisma db seed
 ```
+
+**Production uchun PostgreSQL:**
+- `backend/prisma/schema.prisma` da datasource `postgresql` ga o'zgartirilgan
+- `DATABASE_URL` environment variable'ni sozlang
 
 ### 5. Ishga tushirish
 
@@ -206,6 +213,20 @@ Loyihada professional design system ishlatilgan:
 - Input validation va sanitization
 - CSRF protection
 - Security headers (helmet)
+
+## 🚀 Deployment
+
+### Render.com'ga Deploy Qilish
+
+Batafsil ko'rsatmalar uchun [DEPLOYMENT.md](DEPLOYMENT.md) faylini ko'ring.
+
+**Qisqacha:**
+1. PostgreSQL database yarating
+2. Backend service deploy qiling
+3. Frontend service deploy qiling
+4. Environment variables sozlang
+
+**Live Demo:** [ShopUz on Render](https://shopuz-frontend.onrender.com) *(deploy qilingandan keyin)*
 
 ## 📝 License
 
